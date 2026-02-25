@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
 model QRCode {
@@ -32,4 +32,6 @@ model Scan {
   referrer  String?
   country   String?
   createdAt DateTime @default(now())
+
+  @@index([qrCodeId])
 }
