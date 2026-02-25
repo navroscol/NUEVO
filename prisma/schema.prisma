@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model QRCode {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  phone       String
+  message     String?
+  webhookUrl  String?
+  webhookNote String?
+  color       String   @default("#25D366")
+  bgColor     String   @default("#FFFFFF")
+  active      Boolean  @default(true)
+  totalScans  Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  scans       Scan[]
+}
+
+model Scan {
+  id        String   @id @default(cuid())
+  qrCode    QRCode   @relation(fields: [qrCodeId], references: [id], onDelete: Cascade)
+  qrCodeId  String
+  ip        String?
+  userAgent String?
+  referrer  String?
+  country   String?
+  createdAt DateTime @default(now())
+}
